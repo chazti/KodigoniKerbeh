@@ -4,19 +4,42 @@
  */
 package KodigoNiKerbeh;
 
+import java.awt.event.KeyEvent;
+import java.sql.*;
+import java.text.DecimalFormat;
+import java.util.Stack;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
  * @author User
  */
-public class JInternalFrameTransaction extends javax.swing.JInternalFrame {
 
+public class JInternalFrameTransaction extends javax.swing.JInternalFrame {
+    private Connection connection;
+    Stack<Long> cart = new Stack<>(); 
+    Stack<Integer> cartAmount = new Stack<>();
     /**
-     * Creates new form JInternalFrameTransaction
+     * Creates new form JInternalFrameScanner
      */
     public JInternalFrameTransaction() {
         initComponents();
+        createConnection();
+        setClosable(true);
+        setVisible(true);
+        
+//        BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI());
+//        for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()){
+//            basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
+//        }
+//        setBounds(0, 0, 1450, 800);
+//        getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        
+        jTextFieldProductID.requestFocus();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,18 +51,221 @@ public class JInternalFrameTransaction extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldProductID = new javax.swing.JTextField();
+        jButtonEnter = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jButtonCancel = new javax.swing.JButton();
+        jButtonConfirm = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableProducts = new javax.swing.JTable();
+        jTextFieldProductName = new javax.swing.JTextField();
+        jTextFieldAmount = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jTextFieldSubtotal = new javax.swing.JTextField();
+        jTextFieldVAT = new javax.swing.JTextField();
+        jTextFieldTotal = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jTextFieldPayment = new javax.swing.JTextField();
+        jTextFieldChange = new javax.swing.JTextField();
 
-        setPreferredSize(new java.awt.Dimension(1450, 800));
+        setBackground(new java.awt.Color(241, 157, 145));
+        setResizable(true);
+
+        jPanel1.setBackground(new java.awt.Color(241, 157, 145));
+
+        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Product ID:");
+
+        jTextFieldProductID.setBackground(new java.awt.Color(255, 240, 224));
+        jTextFieldProductID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldProductIDKeyPressed(evt);
+            }
+        });
+
+        jButtonEnter.setBackground(new java.awt.Color(201, 83, 81));
+        jButtonEnter.setText("Enter");
+        jButtonEnter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEnterActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Scanned:");
+
+        jButtonCancel.setText("Cancel Transaction");
+        jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelActionPerformed(evt);
+            }
+        });
+
+        jButtonConfirm.setText("Confirm Transaction");
+        jButtonConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConfirmActionPerformed(evt);
+            }
+        });
+
+        jTableProducts.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Product Name", "Price", "Quantity", "Amount Due"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTableProducts);
+
+        jTextFieldProductName.setEditable(false);
+        jTextFieldProductName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextFieldProductNameMouseClicked(evt);
+            }
+        });
+
+        jLabel3.setText("Product Name:");
+
+        jLabel4.setText("Amount:");
+
+        jLabel5.setText("Subtotal:");
+
+        jLabel6.setText("Value Added Tax (VAT):");
+
+        jLabel7.setText("Total:");
+
+        jTextFieldSubtotal.setEditable(false);
+        jTextFieldSubtotal.setEnabled(false);
+
+        jTextFieldVAT.setEditable(false);
+        jTextFieldVAT.setEnabled(false);
+
+        jTextFieldTotal.setEditable(false);
+        jTextFieldTotal.setEnabled(false);
+
+        jLabel8.setText("Amount Tendered:");
+
+        jLabel9.setText("Amount Due:");
+
+        jTextFieldPayment.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldPaymentKeyPressed(evt);
+            }
+        });
+
+        jTextFieldChange.setEditable(false);
+        jTextFieldChange.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 577, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTextFieldProductID, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldAmount))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(198, 198, 198)
+                            .addComponent(jLabel3)
+                            .addGap(304, 304, 304)
+                            .addComponent(jLabel4))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButtonEnter)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldVAT, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(jTextFieldSubtotal)
+                            .addComponent(jTextFieldTotal))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldPayment, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(jTextFieldChange))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 358, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldProductID)
+                    .addComponent(jTextFieldProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonEnter)
+                .addGap(1, 1, 1)
+                .addComponent(jLabel2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(612, 612, 612)
+                        .addComponent(jButtonConfirm))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jTextFieldSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jTextFieldVAT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(jTextFieldPayment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jButtonCancel)
+                    .addComponent(jTextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(jTextFieldChange, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -50,14 +276,311 @@ public class JInternalFrameTransaction extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    private void jTextFieldProductIDKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldProductIDKeyPressed
+        String productText = jTextFieldProductID.getText().trim();
+        
+        try {
+            if(!jTextFieldProductID.getText().isBlank()){
+                String sql = "SELECT * FROM product WHERE product_barcode LIKE '" + jTextFieldProductID.getText() + "%'";
 
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                System.out.println("cum");
+                if(resultSet.next()){
+                    jTextFieldProductName.setText(resultSet.getLong("product_barcode") + "\t" + resultSet.getString("product_name"));
+                }
+
+                resultSet.close();
+                preparedStatement.close();
+
+                if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+                    long productID = Long.parseLong(productText);
+    //                JOptionPane.showMessageDialog(this, "Your Scanned Barcode is: " + productText);
+                    jTextFieldProductID.setText("");
+                    jTextFieldProductName.setText("");
+                    jTextFieldProductID.requestFocus();
+                    updateCart(productID);
+                }
+            }else{
+                jTextFieldProductName.setText("");
+            }
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Invalid product ID!!!");
+            jTextFieldProductID.setText("");
+            jTextFieldProductName.setText("");
+            jTextFieldAmount.setText("");
+            jTextFieldProductID.requestFocus();
+        }
+    }//GEN-LAST:event_jTextFieldProductIDKeyPressed
+
+    private void jButtonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnterActionPerformed
+        String productText = jTextFieldProductID.getText().trim();
+        
+        try {         
+            long productID = Long.parseLong(productText);
+//            JOptionPane.showMessageDialog(this, "Your Scanned Barcode is: " + productText);
+            jTextFieldProductID.setText("");
+            jTextFieldProductName.setText("");
+            jTextFieldProductID.requestFocus();
+            updateCart(productID);
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Inutil!!!");
+            jTextFieldProductID.setText("");
+            jTextFieldProductName.setText("");
+            jTextFieldAmount.setText("");
+            jTextFieldProductID.requestFocus();
+        }
+    }//GEN-LAST:event_jButtonEnterActionPerformed
+
+    private void jTextFieldProductNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldProductNameMouseClicked
+        String[] productInfo = jTextFieldProductName.getText().split("\t");
+        
+        jTextFieldProductID.setText(productInfo[0]);
+    }//GEN-LAST:event_jTextFieldProductNameMouseClicked
+
+    private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
+        if(JOptionPane.showConfirmDialog(this, "CONFIRM DISPOSE TRANSACTION?")==JOptionPane.YES_OPTION){
+            clearCart();
+        }
+    }//GEN-LAST:event_jButtonCancelActionPerformed
+
+    private void jButtonConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmActionPerformed
+        try{
+            double change = Double.parseDouble(jTextFieldChange.getText());
+            
+            if(change > 0){
+                JOptionPane.showMessageDialog(this, "INSUFFICIENT BALANCE TO PROCEED WITH TRANSACTION!");
+            }else{
+                if(JOptionPane.showConfirmDialog(this, "CONFIRM TRANSACTION?")==JOptionPane.YES_OPTION){
+                    exportCart();
+                }
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"INVALID BALANCE!");
+        }
+        
+        
+    }//GEN-LAST:event_jButtonConfirmActionPerformed
+
+    private void jTextFieldPaymentKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPaymentKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            try{
+                DecimalFormat df = new DecimalFormat("#.##");
+                
+                double payment = 0;
+                if(!jTextFieldPayment.getText().isEmpty()){
+                    payment = Double.parseDouble(jTextFieldPayment.getText());
+                }
+                double due = Double.parseDouble(jTextFieldTotal.getText());
+                
+
+                double change = due - payment;
+
+                System.out.println(change);
+                jTextFieldChange.setText(df.format(change));
+            }catch(Exception e){
+                System.out.println(e);
+            }
+        }
+    }//GEN-LAST:event_jTextFieldPaymentKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCancel;
+    private javax.swing.JButton jButtonConfirm;
+    private javax.swing.JButton jButtonEnter;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTableProducts;
+    private javax.swing.JTextField jTextFieldAmount;
+    private javax.swing.JTextField jTextFieldChange;
+    private javax.swing.JTextField jTextFieldPayment;
+    private javax.swing.JTextField jTextFieldProductID;
+    private javax.swing.JTextField jTextFieldProductName;
+    private javax.swing.JTextField jTextFieldSubtotal;
+    private javax.swing.JTextField jTextFieldTotal;
+    private javax.swing.JTextField jTextFieldVAT;
     // End of variables declaration//GEN-END:variables
+
+    private void createConnection() {
+        String url = "jdbc:mysql://localhost:3306/pos";
+        String user = "root";
+        String password = "Hoshimachi0322";
+        
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            
+            connection = DriverManager.getConnection(url, user, password);
+            
+            System.out.println("You're so skibidi!");
+        }catch(ClassNotFoundException e){
+            System.out.println("What is lil bro cookin!");
+            e.printStackTrace();
+        }catch(SQLException e){
+            System.out.println("You have negative rizz...");
+        }
+    }
+    
+    private void updateCart(long longganisa){
+        try{
+            String sql = "SELECT * FROM product WHERE product_barcode=" + longganisa;
+            
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            if(resultSet.next()){
+                if(!cart.contains(longganisa)){
+                    cart.add(longganisa);
+                    try{
+                        int count = Integer.parseInt(jTextFieldAmount.getText());
+                        cartAmount.add(count);
+                    }catch(Exception e){
+                        cartAmount.add(1);
+                    }
+                    jTextFieldAmount.setText("");
+                }else{
+                    System.out.println("skibidi");
+                    int amount = cartAmount.get(cart.indexOf(longganisa));
+                    try{
+                        int count = Integer.parseInt(jTextFieldAmount.getText());
+                        amount+=count;
+                    }catch(Exception e){
+                        amount++;
+                    }
+                    jTextFieldAmount.setText("");
+                    cartAmount.set(cart.indexOf(longganisa), amount);
+                    System.out.println(cart.indexOf(longganisa));
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "ITEM NOT FOUND!");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        displayCart();
+    }
+    
+    private void displayCart(){
+        DefaultTableModel table = (DefaultTableModel) jTableProducts.getModel();
+        
+        table.setRowCount(0);
+        
+        jTextFieldSubtotal.setText("0");
+        jTextFieldVAT.setText("0");
+        jTextFieldTotal.setText("0");
+        
+        try{
+            for (int i = 0; i < cart.size(); i++) {
+                String sql = "SELECT * FROM product WHERE product_barcode=" + cart.get(i).toString();
+                
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                
+                if(resultSet.next()){
+                    
+                    long barcode = resultSet.getLong("product_barcode");
+                    String productName = resultSet.getString("product_name");
+                    double price = resultSet.getDouble("product_price");
+                    int amount = cartAmount.get(i);
+                    
+                    table.addRow(new Object[]{barcode, productName, price, amount, (price*amount)});
+                    
+                    double total = price*amount;
+                    double subtotal = total/1.12;
+                    double tax = total*(3.0/28.0);
+                    
+                    subtotal += Double.parseDouble(jTextFieldSubtotal.getText());
+                    tax += Double.parseDouble(jTextFieldVAT.getText());
+                    total += Double.parseDouble(jTextFieldTotal.getText());
+                    
+                    DecimalFormat df = new DecimalFormat("#.##");
+                    jTextFieldSubtotal.setText(df.format(subtotal));
+                    jTextFieldVAT.setText(df.format(tax));
+                    jTextFieldTotal.setText(df.format(total));
+                }else{
+                    JOptionPane.showMessageDialog(this, "ITEM NOT FOUND!");
+                }
+                
+                resultSet.close();
+                preparedStatement.close();
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void exportCart(){
+        DefaultTableModel table = (DefaultTableModel) jTableProducts.getModel();
+        
+        try{
+            String sql = "INSERT INTO `pos`.`transactions` VALUES ();";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            
+            sql = "SELECT count(*) FROM transactions";
+            preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            resultSet.next();
+
+            int transactionID = resultSet.getInt(1);
+
+            for (int i = 0; i < cart.size(); i++) {
+                sql = "SELECT idproduct, product_price FROM product WHERE product_barcode=" + cart.get(i);
+                
+                preparedStatement = connection.prepareStatement(sql);
+                resultSet = preparedStatement.executeQuery();
+                
+                resultSet.next();
+                int productID = resultSet.getInt("idproduct");
+                double productPrice = resultSet.getDouble("product_price");
+                
+                sql = "INSERT INTO pos.transaction_items (`fk_idtransaction`, `fk_idproduct`, `transaction_item_quantity`, `transaction_item_price`) VALUES (" + transactionID + "," + productID +"," + cartAmount.get(i) + "," + productPrice + ")";
+                
+                System.out.println(sql);
+                
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.executeUpdate();
+            }
+            
+            JOptionPane.showMessageDialog(this, "TRANSACTION SUCCESSFUL!");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        
+        clearCart();
+    }
+    
+    private void clearCart(){
+        cart.clear();
+        cartAmount.clear();
+        displayCart();
+        jTextFieldProductID.setText("");
+        jTextFieldProductName.setText("");
+        jTextFieldAmount.setText("");
+        jTextFieldSubtotal.setText("");
+        jTextFieldVAT.setText("");
+        jTextFieldTotal.setText("");
+        jTextFieldPayment.setText("");
+        jTextFieldChange.setText("");
+        jTextFieldProductID.requestFocus();
+    }
 }
