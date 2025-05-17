@@ -25,6 +25,7 @@ public class JInternalFrameScanner extends javax.swing.JInternalFrame {
     /**
      * Creates new form JInternalFrameScanner
      */
+    
     public JInternalFrameScanner() {
         initComponents();
         setClosable(true);
@@ -36,6 +37,7 @@ public class JInternalFrameScanner extends javax.swing.JInternalFrame {
         }
         setBounds(0, 0, 1450, 800);
         getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        
     }
     
 
