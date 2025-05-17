@@ -4,17 +4,29 @@
  */
 package KodigoNiKerbeh;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author User
  */
 public class JInternalFrameInventory extends javax.swing.JInternalFrame {
-
+    int addOrEdit=1;
+    String sortStatus;
+    Connection connection;
     /**
      * Creates new form JInternalFrameInventory
      */
     public JInternalFrameInventory() {
         initComponents();
+        createConnection();
+        loadDataIntoTable();
     }
 
     /**
@@ -46,12 +58,35 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jTextFieldQuantity = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableInventory = new javax.swing.JTable();
+        jComboBoxSortBy = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jTextFieldSearch = new javax.swing.JTextField();
+        jButtonSearch = new javax.swing.JButton();
 
         setClosable(true);
+        setTitle("Inventory Management");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(253, 187, 180));
 
         jToolBar1.setBackground(new java.awt.Color(253, 187, 180));
+        jToolBar1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jToolBar1.setRollover(true);
 
         jButtonAddProduct.setBackground(new java.awt.Color(241, 157, 145));
@@ -76,6 +111,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jButtonEditProduct.setForeground(new java.awt.Color(0, 0, 0));
         jButtonEditProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
         jButtonEditProduct.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonEditProduct.setEnabled(false);
         jButtonEditProduct.setFocusable(false);
         jButtonEditProduct.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonEditProduct.setMaximumSize(new java.awt.Dimension(50, 45));
@@ -93,6 +129,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jButtonDeleteProduct.setForeground(new java.awt.Color(0, 0, 0));
         jButtonDeleteProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
         jButtonDeleteProduct.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonDeleteProduct.setEnabled(false);
         jButtonDeleteProduct.setFocusable(false);
         jButtonDeleteProduct.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonDeleteProduct.setMaximumSize(new java.awt.Dimension(50, 45));
@@ -121,6 +158,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jButtonConfirm.setForeground(new java.awt.Color(0, 0, 0));
         jButtonConfirm.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
         jButtonConfirm.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonConfirm.setEnabled(false);
         jButtonConfirm.setFocusable(false);
         jButtonConfirm.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonConfirm.setMaximumSize(new java.awt.Dimension(50, 45));
@@ -138,6 +176,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jButtonCancel.setForeground(new java.awt.Color(0, 0, 0));
         jButtonCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
         jButtonCancel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonCancel.setEnabled(false);
         jButtonCancel.setFocusable(false);
         jButtonCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonCancel.setMaximumSize(new java.awt.Dimension(50, 45));
@@ -150,6 +189,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(jButtonCancel);
 
+        jTextFieldProduct.setBackground(new java.awt.Color(255, 240, 224));
         jTextFieldProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextFieldProduct.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -161,13 +201,16 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Product ID:");
 
+        jTextFieldProductID.setBackground(new java.awt.Color(255, 240, 224));
         jTextFieldProductID.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextFieldProductID.setForeground(new java.awt.Color(0, 0, 0));
+        jTextFieldProductID.setEnabled(false);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Barcode:");
 
+        jTextFieldBarcode.setBackground(new java.awt.Color(255, 240, 224));
         jTextFieldBarcode.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextFieldBarcode.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -175,6 +218,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Price:");
 
+        jTextFieldPrice.setBackground(new java.awt.Color(255, 240, 224));
         jTextFieldPrice.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextFieldPrice.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -182,15 +226,13 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Quantity:");
 
+        jTextFieldQuantity.setBackground(new java.awt.Color(255, 240, 224));
         jTextFieldQuantity.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextFieldQuantity.setForeground(new java.awt.Color(0, 0, 0));
 
         jTableInventory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Product", "Product ID", "Barcode", "Price", "Quantity"
@@ -204,41 +246,84 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableInventory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableInventoryMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableInventory);
+
+        jComboBoxSortBy.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBoxSortBy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alphabetical Ascending", "Alphabetical Descending", "Quantity Ascending", "Quantity Descending" }));
+        jComboBoxSortBy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxSortByActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Sort by:");
+
+        jTextFieldSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jButtonSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButtonSearch.setText("Search");
+        jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSearchActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldProductID)
-                    .addComponent(jTextFieldBarcode)
-                    .addComponent(jTextFieldPrice)
-                    .addComponent(jTextFieldQuantity)
-                    .addComponent(jTextFieldProduct)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldProductID, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
-                        .addGap(0, 117, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 682, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxSortBy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldSearch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jComboBoxSortBy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonSearch))))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
                         .addGap(13, 13, 13))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -277,38 +362,252 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    void reset(){
-        jTextFieldProduct.setEditable(false);
-        jTextFieldProductID.setEditable(false);
-        jTextFieldBarcode.setEditable(false);
-        jTextFieldPrice.setEditable(false);
-        jTextFieldQuantity.setEditable(false);
+    public void createConnection(){
+        String url = "jdbc:mysql://localhost:3306/pos";
+        String user = "root";
+        String password = "ATGofficial-101";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, user, password);
+            System.out.println("Database Connected Successfully");
+        } catch (ClassNotFoundException e){
+            System.out.println("MySQL Driver not found!");
+            e.printStackTrace();
+        } catch (SQLException e){
+            System.out.println("Connection Failed!");
+            e.printStackTrace();
+        }
+    }
+    private void loadDataIntoTable() {
+        String sortStatus = jComboBoxSortBy.getSelectedItem().toString();
+        String sqlAlphaAscend = "SELECT id, barcode, product, price, quantity FROM inventory_mgmt ORDER BY product asc";
+        String sqlAlphaDescend = "SELECT id, barcode, product, price, quantity FROM inventory_mgmt ORDER BY product desc";
+        String sqlQuantityAscend = "SELECT id, barcode, product, price, quantity FROM inventory_mgmt ORDER BY quantity asc";
+        String sqlQuantityDescend = "SELECT id, barcode, product, price, quantity FROM inventory_mgmt ORDER BY quantity desc";
+        
+        try {
+            PreparedStatement preparedStatement;
+            if (sortStatus.equals("Alphabetical Ascending")){
+                preparedStatement = connection.prepareStatement(sqlAlphaAscend);
+            } else if (sortStatus.equals("Alphabetical Descending")){
+                preparedStatement = connection.prepareStatement(sqlAlphaDescend);
+            } else if (sortStatus.equals("Quantity Ascending")){
+                preparedStatement = connection.prepareStatement(sqlQuantityAscend);
+            } else {
+                preparedStatement = connection.prepareStatement(sqlQuantityDescend);
+            }
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
+            model.setRowCount(0);
+            
+            while (resultSet.next()){
+                int id = resultSet.getInt("id");
+                long barcode = resultSet.getLong("barcode");
+                String product = resultSet.getString("product");
+                double price = resultSet.getDouble("price");
+                int quantity = resultSet.getInt("quantity");
+                model.addRow(new Object[]{product, id, barcode, price, quantity});
+            }
+            
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        reset();
+    }
+    private void displaySelectedRow(){
+        DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
+        int selectedRow = jTableInventory.getSelectedRow();
+            /*Object[] row = {model.getValueAt(selectedRow, 0), 
+                            model.getValueAt(selectedRow, 1),
+                            model.getValueAt(selectedRow, 2),
+                            model.getValueAt(selectedRow, 3),
+                            model.getValueAt(selectedRow, 4),
+                            model.getValueAt(selectedRow, 5),
+                            model.getValueAt(selectedRow, 6)};
+            */
+            jTextFieldProductID.setText(model.getValueAt(selectedRow, 1).toString());
+            jTextFieldBarcode.setText(model.getValueAt(selectedRow, 2).toString());           
+            jTextFieldProduct.setText(model.getValueAt(selectedRow, 0).toString());
+            jTextFieldPrice.setText(model.getValueAt(selectedRow, 3).toString());
+            jTextFieldQuantity.setText(model.getValueAt(selectedRow, 4).toString());
+    }
+    private void searchInTable(String searchText){
+        DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
+        int rowCount = model.getRowCount();
+        int columnCount = model.getColumnCount();
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                Object cellValue = model.getValueAt(i, j);
+                if (cellValue != null && cellValue.toString().contains(searchText)) {
+                    jTableInventory.setRowSelectionInterval(i, i);
+                    return;
+                }
+            }
+        }
+    }
+    private void reset(){
+        jTextFieldProduct.setEnabled(false);
+        jTextFieldBarcode.setEnabled(false);
+        jTextFieldPrice.setEnabled(false);
+        jTextFieldQuantity.setEnabled(false);
         
         jButtonCancel.setEnabled(false);
         jButtonConfirm.setEnabled(false);
         jButtonDeleteProduct.setEnabled(false);
         jButtonEditProduct.setEnabled(false);
     }
+    private void clearTextFields(){
+        jTextFieldProduct.setText("");
+        jTextFieldProductID.setText("");
+        jTextFieldBarcode.setText("");
+        jTextFieldPrice.setText("");
+        jTextFieldQuantity.setText("");
+    }
+    public void buttonState(boolean state){
+        jButtonConfirm.setEnabled(state);
+        jButtonCancel.setEnabled(state);
+    }
+    public void textFieldState(boolean state){
+        jTextFieldProduct.setEditable(state);
+        jTextFieldProduct.setEnabled(state);
+        jTextFieldBarcode.setEditable(state);
+        jTextFieldBarcode.setEnabled(state);
+        jTextFieldPrice.setEditable(state);
+        jTextFieldPrice.setEnabled(state);
+        jTextFieldQuantity.setEditable(state);
+        jTextFieldQuantity.setEnabled(state);
+    }
     private void jButtonAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddProductActionPerformed
-        // TODO add your handling code here:
+        addOrEdit=1;
+        clearTextFields();
+        buttonState(true);
+        textFieldState(true);
     }//GEN-LAST:event_jButtonAddProductActionPerformed
 
     private void jButtonEditProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditProductActionPerformed
-        // TODO add your handling code here:
+        addOrEdit=2;
+        buttonState(true);
+        textFieldState(true);
+        displaySelectedRow();
     }//GEN-LAST:event_jButtonEditProductActionPerformed
 
     private void jButtonDeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteProductActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = jTableInventory.getSelectedRow();
+        if (selectedRow != -1){
+            int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the selected record?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+            if (response == JOptionPane.YES_OPTION){
+                DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
+                int id = (int) model.getValueAt(selectedRow, 1);
+                
+                String sql = "DELETE FROM inventory_mgmt WHERE id = " + id;
+                 try { 
+                     PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                     preparedStatement.executeUpdate();
+                     preparedStatement.close();
+                     
+                     model.removeRow(selectedRow);
+                     
+                     JOptionPane.showMessageDialog(this, "Record Successfully Deleted!");
+                     
+                 } catch (SQLException e){
+                     e.printStackTrace();
+                 }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to delete");
+        }
+        loadDataIntoTable();
+        reset();
+        clearTextFields();
     }//GEN-LAST:event_jButtonDeleteProductActionPerformed
 
     private void jButtonConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmActionPerformed
-        // TODO add your handling code here:
+        String product = jTextFieldProduct.getText();
+        
+        if (jTextFieldProduct.getText().isEmpty() || jTextFieldBarcode.getText().isEmpty() || jTextFieldPrice.getText().isEmpty() || 
+            jTextFieldQuantity.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "All fields are required. Please fill in all the necessary information");
+        } else {
+            try {
+                int quantity = Integer.parseInt(jTextFieldQuantity.getText());
+                long barcode = Long.parseLong(jTextFieldBarcode.getText());
+                double price = Double.parseDouble(jTextFieldPrice.getText());
+                try {
+                    String sqlAdd = "INSERT INTO inventory_mgmt(barcode, product, price, quantity) "
+                    + "VALUES(" + barcode + ", '" + product + "', " + price + ", " + quantity + ")";
+                    String sqlUpdate = "UPDATE inventory_mgmt SET barcode = " + barcode + ", product = '" + product + "', price = "
+                    + price + ", quantity = " + quantity + " WHERE id = ";
+                    
+                    
+                    
+                    if (price<0 || quantity<0) {
+                        JOptionPane.showMessageDialog(this, "Invalid input for price or quantity. Please check the values.");
+                        //preparedStatement = connection.prepareStatement(sqlAdd);
+                    } else {
+                        PreparedStatement preparedStatement;
+                        if (addOrEdit == 1) {
+                            preparedStatement = connection.prepareStatement(sqlAdd);
+                            preparedStatement.executeUpdate();
+                            JOptionPane.showMessageDialog(this, "Record Successfully Saved!");
+                        } else {
+                            int id = Integer.parseInt(jTextFieldProductID.getText());
+                            sqlUpdate += id;
+                            preparedStatement = connection.prepareStatement(sqlUpdate);
+                            int rowAffected = preparedStatement.executeUpdate();
+                            if (rowAffected > 0) {
+                                JOptionPane.showMessageDialog(this, "Record updated Successfully!");
+                            } else {
+                                JOptionPane.showMessageDialog(this, "No record found with the given id.");
+                            }
+                        }preparedStatement.close();
+                    }
+                    loadDataIntoTable();
+        clearTextFields();
+        reset();
+                    
+                } catch(SQLException ex){
+                    System.out.println(ex.toString());
+                }
+            } catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(this, "One or more inputs are invalid. Please check the values");
+            }
+        }
+        
     }//GEN-LAST:event_jButtonConfirmActionPerformed
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
-        // TODO add your handling code here:
+        clearTextFields();
+        reset();
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
+    private void jTableInventoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableInventoryMouseClicked
+        displaySelectedRow();
+        jButtonEditProduct.setEnabled(true);
+        jButtonDeleteProduct.setEnabled(true);
+        buttonState(false);
+        textFieldState(false);
+    }//GEN-LAST:event_jTableInventoryMouseClicked
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        try {
+            connection.close();
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_formInternalFrameClosing
+
+    private void jComboBoxSortByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSortByActionPerformed
+        loadDataIntoTable();
+    }//GEN-LAST:event_jComboBoxSortByActionPerformed
+
+    private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
+        String search = jTextFieldSearch.getText();
+        searchInTable(search);
+    }//GEN-LAST:event_jButtonSearchActionPerformed
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddProduct;
@@ -317,11 +616,14 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButtonDeleteProduct;
     private javax.swing.JButton jButtonEditProduct;
     private javax.swing.JButton jButtonGhost;
+    private javax.swing.JButton jButtonSearch;
+    private javax.swing.JComboBox<String> jComboBoxSortBy;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableInventory;
@@ -330,6 +632,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextFieldProduct;
     private javax.swing.JTextField jTextFieldProductID;
     private javax.swing.JTextField jTextFieldQuantity;
+    private javax.swing.JTextField jTextFieldSearch;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
