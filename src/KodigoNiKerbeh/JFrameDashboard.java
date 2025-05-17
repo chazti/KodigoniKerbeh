@@ -29,11 +29,11 @@ public class JFrameDashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
-        jButtonScanner = new javax.swing.JButton();
         jButtonTransaction = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButtonScanner = new javax.swing.JButton();
         jPanelDashboard = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -43,27 +43,8 @@ public class JFrameDashboard extends javax.swing.JFrame {
         jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jToolBar1.setRollover(true);
 
-        jButtonScanner.setBackground(new java.awt.Color(241, 157, 145));
-        jButtonScanner.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButtonScanner.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonScanner.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
-        jButtonScanner.setText("Scanner");
-        jButtonScanner.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButtonScanner.setFocusable(false);
-        jButtonScanner.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonScanner.setMaximumSize(new java.awt.Dimension(80, 80));
-        jButtonScanner.setPreferredSize(new java.awt.Dimension(90, 50));
-        jButtonScanner.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButtonScanner.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonScannerActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButtonScanner);
-
         jButtonTransaction.setBackground(new java.awt.Color(241, 157, 145));
         jButtonTransaction.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButtonTransaction.setForeground(new java.awt.Color(0, 0, 0));
         jButtonTransaction.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
         jButtonTransaction.setText("Transaction");
         jButtonTransaction.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -80,7 +61,6 @@ public class JFrameDashboard extends javax.swing.JFrame {
 
         jButton2.setBackground(new java.awt.Color(241, 157, 145));
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
         jButton2.setText("Inventory");
         jButton2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -92,7 +72,6 @@ public class JFrameDashboard extends javax.swing.JFrame {
 
         jButton3.setBackground(new java.awt.Color(241, 157, 145));
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
         jButton3.setText("Account");
         jButton3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -104,7 +83,6 @@ public class JFrameDashboard extends javax.swing.JFrame {
 
         jButton4.setBackground(new java.awt.Color(241, 157, 145));
         jButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(0, 0, 0));
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
         jButton4.setText("Logout");
         jButton4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -118,6 +96,23 @@ public class JFrameDashboard extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jButton4);
+
+        jButtonScanner.setBackground(new java.awt.Color(241, 157, 145));
+        jButtonScanner.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButtonScanner.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
+        jButtonScanner.setText("Scanner");
+        jButtonScanner.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonScanner.setFocusable(false);
+        jButtonScanner.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonScanner.setMaximumSize(new java.awt.Dimension(80, 80));
+        jButtonScanner.setPreferredSize(new java.awt.Dimension(90, 50));
+        jButtonScanner.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonScanner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonScannerActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButtonScanner);
 
         jPanelDashboard.setBackground(new java.awt.Color(255, 240, 224));
 
@@ -152,17 +147,18 @@ public class JFrameDashboard extends javax.swing.JFrame {
 
     private void jButtonScannerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonScannerActionPerformed
         jPanelDashboard.removeAll();
-        /*JInternalFrameScanner Scanner = new JInternalFrameScanner();
+        /*JInternalFrameTransaction Scanner = new JInternalFrameTransaction();
         jPanelDashboard.add(Scanner);
         Scanner.setVisible(true);*/
         try{
-            JInternalFrameScanner j = new JInternalFrameScanner();
+            JInternalFrameTransaction j = new JInternalFrameTransaction();
             
             jPanelDashboard.add(j);
             j.setVisible(true);
             jPanelDashboard.moveToFront(j);
             jPanelDashboard.setSize(jPanelDashboard.getWidth(), jPanelDashboard.getHeight());
             jPanelDashboard.setLocation(0, 0);
+            j.requestFocus();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -170,10 +166,10 @@ public class JFrameDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonScannerActionPerformed
 
     private void jButtonTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTransactionActionPerformed
-        jPanelDashboard.removeAll();
-        JInternalFrameTransaction transaction = new JInternalFrameTransaction();
-        jPanelDashboard.add(transaction);
-        transaction.setVisible(true);
+//        jPanelDashboard.removeAll();
+//        JInternalFrameTransaction transaction = new JInternalFrameTransaction();
+//        jPanelDashboard.add(transaction);
+//        transaction.setVisible(true);
     }//GEN-LAST:event_jButtonTransactionActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
