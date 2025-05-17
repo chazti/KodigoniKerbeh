@@ -5,6 +5,7 @@
 package KodigoNiKerbeh;
 
 import com.sun.jdi.connect.spi.Connection;
+import java.awt.print.PrinterException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +28,7 @@ public class JFrameAddAcount extends javax.swing.JFrame {
     }
 
     public void createConnection(){
-        String url = "jdbc:mysql://localhost:3306/POSLogin";
+        String url = "jdbc:mysql://localhost:3306/POS";
         String user = "root";
         String password = "73556085283";
         
@@ -58,11 +59,17 @@ public class JFrameAddAcount extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jTextFieldPassword = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextFieldUsername = new javax.swing.JTextField();
+        jTextFieldEmp_Last_Name = new javax.swing.JTextField();
         jRadioButtonAdmin = new javax.swing.JRadioButton();
         jButtonAdd = new javax.swing.JButton();
         jButtonClear = new javax.swing.JButton();
         jButtonExit = new javax.swing.JButton();
+        jTextFieldUsername = new javax.swing.JTextField();
+        jTextFieldEmp_Middle_Name = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextFieldEmp_First_Name = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,6 +80,12 @@ public class JFrameAddAcount extends javax.swing.JFrame {
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Password:");
+
+        jTextFieldEmp_Last_Name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldEmp_Last_NameActionPerformed(evt);
+            }
+        });
 
         jRadioButtonAdmin.setForeground(new java.awt.Color(0, 0, 0));
         jRadioButtonAdmin.setText("Admin");
@@ -98,14 +111,41 @@ public class JFrameAddAcount extends javax.swing.JFrame {
             }
         });
 
+        jTextFieldEmp_Middle_Name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldEmp_Middle_NameActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Employee Middle Name");
+
+        jTextFieldEmp_First_Name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldEmp_First_NameActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Employee First Name");
+
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Employee Last Name");
+
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jTextFieldPassword, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jTextFieldUsername, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTextFieldEmp_Last_Name, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jRadioButtonAdmin, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jButtonAdd, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jButtonClear, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jButtonExit, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTextFieldUsername, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTextFieldEmp_Middle_Name, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTextFieldEmp_First_Name, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -113,62 +153,69 @@ public class JFrameAddAcount extends javax.swing.JFrame {
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jRadioButtonAdmin)
-                    .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel1)
-                        .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                            .addGap(6, 6, 6)
-                            .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                                    .addComponent(jButtonAdd)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jButtonClear))
-                                .addComponent(jTextFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addComponent(jButtonAdd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonClear)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonExit)
-                .addContainerGap())
-            .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
-                    .addContainerGap(26, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextFieldEmp_First_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextFieldEmp_Middle_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(9, 9, 9)))
+                    .addComponent(jLabel1)
+                    .addComponent(jTextFieldEmp_Last_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addGap(343, 343, 343)
+                        .addComponent(jButtonExit))
+                    .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jRadioButtonAdmin)
+                        .addComponent(jTextFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldEmp_Last_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldEmp_First_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldEmp_Middle_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
-                .addGap(74, 74, 74)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioButtonAdmin)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAdd)
                     .addComponent(jButtonClear))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGap(11, 11, 11)
                 .addComponent(jButtonExit)
                 .addContainerGap())
-            .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                    .addGap(49, 49, 49)
-                    .addComponent(jTextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(221, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jDesktopPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,16 +230,19 @@ public class JFrameAddAcount extends javax.swing.JFrame {
     private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
         try{
             PreparedStatement preparedStatement;
-            if(jTextFieldUsername.getText().isEmpty() || jTextFieldPassword.getText().isEmpty()){
+            if(jTextFieldEmp_Last_Name.getText().isEmpty() || jTextFieldPassword.getText().isEmpty()){
                 JOptionPane.showMessageDialog(this, "Please Complete Fill!");
             }else{
-                String username = jTextFieldUsername.getText();
+                String emp_last_name = jTextFieldEmp_Last_Name.getText();
+                String emp_first_name = jTextFieldEmp_First_Name.getText();
+                String emp_middle_name = jTextFieldEmp_Middle_Name.getText();
+                String username = jTextFieldEmp_Last_Name.getText();
                 String password = jTextFieldPassword.getText();
                 int userrole;
                 if(jRadioButtonAdmin.isSelected()){
                     userrole = 1;
-                    String sqlcmd = "INSERT INTO users (username, password, userrole)"
-                    + "VALUES ('" + username + "','" + password + "', " + userrole + ")";
+                    String sqlcmd = "INSERT INTO users (employee_last_name, employee_first_name, employee_middle_name, username, password, userrole)"
+                    + "VALUES ('" + emp_last_name + "','" + emp_first_name +"','" + emp_middle_name + "','" + username + "','" + password + "', " + userrole + ")";
                     preparedStatement = connection.prepareStatement(sqlcmd);
                     preparedStatement.executeUpdate();
                     JOptionPane.showMessageDialog(this, "Record successfully saved!");
@@ -200,8 +250,8 @@ public class JFrameAddAcount extends javax.swing.JFrame {
                     preparedStatement.close();
                 }else{
                     userrole = 2;
-                    String sqlcmd = "INSERT INTO users (username, password, userrole)"
-                    + "VALUES ('" + username + "','" + password + "', " + userrole + ")";
+                    String sqlcmd = "INSERT INTO users (employee_last_name, employee_first_name, employee_middle_name, username, password, userrole)"
+                    + "VALUES ('" + emp_last_name + "','" + emp_first_name +"','" + emp_middle_name + "','" + username + "','" + password + "', " + userrole + ")";
                     preparedStatement = connection.prepareStatement(sqlcmd);
                     preparedStatement.executeUpdate();
                     JOptionPane.showMessageDialog(this, "Record successfully saved!");
@@ -223,10 +273,25 @@ public class JFrameAddAcount extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButtonExitActionPerformed
 
+    private void jTextFieldEmp_Last_NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEmp_Last_NameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldEmp_Last_NameActionPerformed
+
+    private void jTextFieldEmp_Middle_NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEmp_Middle_NameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldEmp_Middle_NameActionPerformed
+
+    private void jTextFieldEmp_First_NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEmp_First_NameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldEmp_First_NameActionPerformed
+
      void clearText(){
+        jTextFieldEmp_Last_Name.setText("");
+        jTextFieldEmp_First_Name.setText("");
+        jTextFieldEmp_Middle_Name.setText("");
         jTextFieldUsername.setText("");
         jTextFieldPassword.setText("");
-        jTextFieldUsername.requestFocus();
+        jTextFieldEmp_Last_Name.requestFocus();
     }
     /**
      * @param args the command line arguments
@@ -270,7 +335,13 @@ public class JFrameAddAcount extends javax.swing.JFrame {
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JRadioButton jRadioButtonAdmin;
+    private javax.swing.JTextField jTextFieldEmp_First_Name;
+    private javax.swing.JTextField jTextFieldEmp_Last_Name;
+    private javax.swing.JTextField jTextFieldEmp_Middle_Name;
     private javax.swing.JTextField jTextFieldPassword;
     private javax.swing.JTextField jTextFieldUsername;
     // End of variables declaration//GEN-END:variables

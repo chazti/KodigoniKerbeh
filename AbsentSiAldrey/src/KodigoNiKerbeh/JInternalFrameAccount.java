@@ -23,7 +23,7 @@ public class JInternalFrameAccount extends javax.swing.JInternalFrame {
     /**
      * Creates new form JInternalFrameAccount
      */
-    static String sqlcmd = "SELECT id, username, password FROM users WHERE userrole = 1";
+    static String sqlcmd = "SELECT id, employee_last_name, employee_first_name, employee_middle_name, username, password FROM users WHERE userrole = 1";
     private java.sql.Connection connection;
     public static String ShowTable;
     public JInternalFrameAccount() {
@@ -33,7 +33,7 @@ public class JInternalFrameAccount extends javax.swing.JInternalFrame {
     }
     
     public void createConnection(){
-        String url = "jdbc:mysql://localhost:3306/POSLogin";
+        String url = "jdbc:mysql://localhost:3306/POS";
         String user = "root";
         String password = "73556085283";
         
@@ -143,11 +143,11 @@ public class JInternalFrameAccount extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Username", "Password"
+                "ID", "Employee Last Name", "Employee First Name", "Employee Middle Name", "Username", "Password"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, true, true, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -167,7 +167,9 @@ public class JInternalFrameAccount extends javax.swing.JInternalFrame {
         jDesktopPaneAccount.setLayout(jDesktopPaneAccountLayout);
         jDesktopPaneAccountLayout.setHorizontalGroup(
             jDesktopPaneAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+            .addGroup(jDesktopPaneAccountLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jDesktopPaneAccountLayout.setVerticalGroup(
             jDesktopPaneAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,12 +200,12 @@ public class JInternalFrameAccount extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdminActionPerformed
-        sqlcmd = "SELECT id, username, password FROM users WHERE userrole = 1";
+        sqlcmd = "SELECT id, employee_last_name, employee_first_name, employee_middle_name, username, password FROM users WHERE userrole = 1";
         SelectDataIntoTable();
     }//GEN-LAST:event_jButtonAdminActionPerformed
 
     private void jButtonCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCashierActionPerformed
-        sqlcmd = "SELECT id, username, password FROM users WHERE userrole = 2";
+        sqlcmd = "SELECT id, employee_last_name, employee_first_name, employee_middle_name, username, password FROM users WHERE userrole = 2";
         SelectDataIntoTable();
     }//GEN-LAST:event_jButtonCashierActionPerformed
 
@@ -211,7 +213,7 @@ public class JInternalFrameAccount extends javax.swing.JInternalFrame {
         try{
             PreparedStatement preparedStatement;
             
-            if (sqlcmd.equals("SELECT id, username, password FROM users WHERE userrole == 1")){
+            if (sqlcmd.equals("SELECT id, employee_last_name, employee_first_name, employee_middle_name, username, password FROM users WHERE userrole == 1")){
                 preparedStatement = connection.prepareStatement(sqlcmd);
 
             }else{
@@ -224,9 +226,12 @@ public class JInternalFrameAccount extends javax.swing.JInternalFrame {
             
             while (resultset.next()){
                 int id = resultset.getInt ("id");
+                String employee_last_name = resultset.getString("employee_last_name");
+                String employee_first_name = resultset.getString("employee_first_name");
+                String employee_middle_name = resultset.getString("employee_middle_name");
                 String username = resultset.getString("username");
                 String password = resultset.getString("password"); 
-                model.addRow (new Object[] {id, username, password});            
+                model.addRow (new Object[] {id, employee_last_name, employee_first_name, employee_first_name, employee_middle_name, username, password});            
             }
             resultset.close();
             preparedStatement.close();   

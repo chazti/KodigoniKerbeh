@@ -140,7 +140,10 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jScrollPane1" alignment="0" pref="673" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="jScrollPane1" min="-2" pref="758" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -160,8 +163,11 @@
             <Component class="javax.swing.JTable" name="jTableAccount">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="3" rowCount="0">
+                  <Table columnCount="6" rowCount="0">
                     <Column editable="false" title="ID" type="java.lang.Object"/>
+                    <Column editable="true" title="Employee Last Name" type="java.lang.Object"/>
+                    <Column editable="true" title="Employee First Name" type="java.lang.Object"/>
+                    <Column editable="true" title="Employee Middle Name" type="java.lang.Object"/>
                     <Column editable="false" title="Username" type="java.lang.Object"/>
                     <Column editable="false" title="Password" type="java.lang.Object"/>
                   </Table>

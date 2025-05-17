@@ -21,7 +21,7 @@ public class JFrameLogin extends javax.swing.JFrame {
     }
     
     public void createConnection(){
-        String url = "jdbc:mysql://localhost:3306/POSLogin";
+        String url = "jdbc:mysql://localhost:3306/POS";
         String user = "root";
         String password = "73556085283";
         
