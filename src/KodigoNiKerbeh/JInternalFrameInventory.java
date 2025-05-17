@@ -365,7 +365,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
     public void createConnection(){
         String url = "jdbc:mysql://localhost:3306/pos";
         String user = "root";
-        String password = "ATGofficial-101";
+        String password = "";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, password);
