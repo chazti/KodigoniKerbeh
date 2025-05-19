@@ -4,6 +4,7 @@
  */
 package KodigoNiKerbeh;
 
+import java.sql.*;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,7 +12,24 @@ import javax.swing.JOptionPane;
  * @author User
  */
 public class JFrameDashboard extends javax.swing.JFrame {
-
+    Connection connection;
+    
+    public void createConnection(){
+        String url = "jdbc:mysql://localhost:3306/pos";
+        String user = "root";
+        String password = "Hoshimachi0322";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, user, password);
+            System.out.println("Database Connected Successfully");
+        } catch (ClassNotFoundException e){
+            System.out.println("MySQL Driver not found!");
+            e.printStackTrace();
+        } catch (SQLException e){
+            System.out.println("Connection Failed!");
+            e.printStackTrace();
+        }
+    }
     /**
      * Creates new form JFrameDashboard
      */
@@ -21,13 +39,34 @@ public class JFrameDashboard extends javax.swing.JFrame {
         
     }
     
-    public JFrameDashboard(String UserLogin){
+    public JFrameDashboard(String UserLogin, String username){
         initComponents();
-        if (UserLogin == "admin"){
-            JOptionPane.showMessageDialog(this, "Hello Admin");
+        createConnection();
+        if (UserLogin.equals("admin")){
+//            JOptionPane.showMessageDialog(this, "Welcome Admin");
         }else{
-            JOptionPane.showMessageDialog(this, "Hello Cashier");
-
+//            JOptionPane.showMessageDialog(this, "Welcome Cashier");
+            jToolBar1.remove(jButtonAccount);
+            jToolBar1.remove(jButtonInventory);
+            jToolBar1.remove(jButtonHistory);
+            jButtonHistory.setEnabled(false);
+        }
+        this.setExtendedState(MAXIMIZED_BOTH);
+        
+        showUsername(username);
+    }
+    
+    private void showUsername(String username){
+        try{
+            String sql = "SELECT employee_first_name FROM users where USERNAME = '" + username +"'";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            rs.next();
+            JOptionPane.showMessageDialog(this, "Welcome " + rs.getString(1));
+            jLabelName.setText(rs.getString(1));
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, e);
         }
     }
 
@@ -41,9 +80,11 @@ public class JFrameDashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
+        jLabelName = new javax.swing.JLabel();
         jButtonTransaction = new javax.swing.JButton();
         jButtonInventory = new javax.swing.JButton();
         jButtonAccount = new javax.swing.JButton();
+        jButtonHistory = new javax.swing.JButton();
         jButtonLogout = new javax.swing.JButton();
         jPanelDashboard = new javax.swing.JDesktopPane();
 
@@ -54,9 +95,13 @@ public class JFrameDashboard extends javax.swing.JFrame {
         jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jToolBar1.setRollover(true);
 
+        jLabelName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelName.setText("Name of user");
+        jToolBar1.add(jLabelName);
+
         jButtonTransaction.setBackground(new java.awt.Color(241, 157, 145));
         jButtonTransaction.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButtonTransaction.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/120px-Goldenglow_icon.png"))); // NOI18N
+        jButtonTransaction.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/transactionCustomer_32x32.png"))); // NOI18N
         jButtonTransaction.setText("Transaction");
         jButtonTransaction.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonTransaction.setFocusable(false);
@@ -73,7 +118,7 @@ public class JFrameDashboard extends javax.swing.JFrame {
 
         jButtonInventory.setBackground(new java.awt.Color(241, 157, 145));
         jButtonInventory.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButtonInventory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/120px-Goldenglow_icon.png"))); // NOI18N
+        jButtonInventory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/inventoryManagement_32x32.png"))); // NOI18N
         jButtonInventory.setText("Inventory");
         jButtonInventory.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonInventory.setFocusable(false);
@@ -89,7 +134,7 @@ public class JFrameDashboard extends javax.swing.JFrame {
 
         jButtonAccount.setBackground(new java.awt.Color(241, 157, 145));
         jButtonAccount.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButtonAccount.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/120px-Goldenglow_icon.png"))); // NOI18N
+        jButtonAccount.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/accountManagement_32x32.png"))); // NOI18N
         jButtonAccount.setText("Account");
         jButtonAccount.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonAccount.setFocusable(false);
@@ -103,9 +148,25 @@ public class JFrameDashboard extends javax.swing.JFrame {
         });
         jToolBar1.add(jButtonAccount);
 
+        jButtonHistory.setBackground(new java.awt.Color(241, 157, 145));
+        jButtonHistory.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButtonHistory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/transactionHistory_32x32.png"))); // NOI18N
+        jButtonHistory.setText("History");
+        jButtonHistory.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonHistory.setFocusable(false);
+        jButtonHistory.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonHistory.setMaximumSize(new java.awt.Dimension(80, 80));
+        jButtonHistory.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonHistoryActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButtonHistory);
+
         jButtonLogout.setBackground(new java.awt.Color(241, 157, 145));
         jButtonLogout.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButtonLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/120px-Goldenglow_icon.png"))); // NOI18N
+        jButtonLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/logout_32x32.png"))); // NOI18N
         jButtonLogout.setText("Logout");
         jButtonLogout.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonLogout.setFocusable(false);
@@ -129,7 +190,7 @@ public class JFrameDashboard extends javax.swing.JFrame {
         );
         jPanelDashboardLayout.setVerticalGroup(
             jPanelDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 474, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,7 +204,7 @@ public class JFrameDashboard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
             .addComponent(jPanelDashboard)
         );
 
@@ -202,6 +263,19 @@ public class JFrameDashboard extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButtonLogoutActionPerformed
 
+    private void jButtonHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHistoryActionPerformed
+        jPanelDashboard.removeAll();
+        JInternalFrameHistory h = new JInternalFrameHistory();
+        jPanelDashboard.add(h);
+        
+        //this part makes the new jframe the only form in the panel
+        jPanelDashboard.moveToFront(h);
+        jPanelDashboard.setSize(jPanelDashboard.getWidth(), jPanelDashboard.getHeight());
+        jPanelDashboard.setLocation(0, 0);
+        
+        h.setVisible(true);
+    }//GEN-LAST:event_jButtonHistoryActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -239,9 +313,11 @@ public class JFrameDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAccount;
+    private javax.swing.JButton jButtonHistory;
     private javax.swing.JButton jButtonInventory;
     private javax.swing.JButton jButtonLogout;
     private javax.swing.JButton jButtonTransaction;
+    private javax.swing.JLabel jLabelName;
     private javax.swing.JDesktopPane jPanelDashboard;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
