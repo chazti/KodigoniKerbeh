@@ -407,7 +407,7 @@ public class JInternalFrameTransaction extends javax.swing.JInternalFrame {
                                  "           INVOICE          " + "\n" +
                                  "**************************************" + "\n" +
                 
-                                 "Qty." + "     " +  "Product" + "    " + "Price" + "    " + "Amount" + "\n");
+                                 "Qty." + "     " +  "Product" + "    " + "Price" + "    " + "Subtotal" + "\n");
         
         for(int i = 0; i <model.getRowCount(); i++){
             
