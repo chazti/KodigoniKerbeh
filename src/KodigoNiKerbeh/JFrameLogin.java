@@ -144,12 +144,12 @@ public class JFrameLogin extends javax.swing.JFrame {
                 
                 if(role.equals("1")){
                     UserLogin = "admin";
-                    JFrameDashboard dashboard = new JFrameDashboard(UserLogin);
+                    JFrameDashboard dashboard = new JFrameDashboard(UserLogin,jTextFieldUsername.getText());
                     dashboard.setVisible(true);
                     this.dispose();
                 }else if (role.equals("2")){
                     UserLogin = "cashier";
-                    JFrameDashboard dashboard = new JFrameDashboard(UserLogin);
+                    JFrameDashboard dashboard = new JFrameDashboard(UserLogin,jTextFieldUsername.getText());
                     dashboard.setVisible(true);
                     this.dispose();
                 }

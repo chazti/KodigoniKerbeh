@@ -62,6 +62,8 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jTextFieldSearch = new javax.swing.JTextField();
         jButtonSearch = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jTextFieldShortName = new javax.swing.JTextField();
 
         setClosable(true);
         setTitle("Inventory Management");
@@ -92,7 +94,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jButtonAddProduct.setBackground(new java.awt.Color(241, 157, 145));
         jButtonAddProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButtonAddProduct.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonAddProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
+        jButtonAddProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/addProduct_32x32.png"))); // NOI18N
         jButtonAddProduct.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonAddProduct.setFocusable(false);
         jButtonAddProduct.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -109,7 +111,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jButtonEditProduct.setBackground(new java.awt.Color(241, 157, 145));
         jButtonEditProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButtonEditProduct.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonEditProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
+        jButtonEditProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/edit_32x32.png"))); // NOI18N
         jButtonEditProduct.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonEditProduct.setEnabled(false);
         jButtonEditProduct.setFocusable(false);
@@ -127,7 +129,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jButtonDeleteProduct.setBackground(new java.awt.Color(241, 157, 145));
         jButtonDeleteProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButtonDeleteProduct.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonDeleteProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
+        jButtonDeleteProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/delete_32x32.png"))); // NOI18N
         jButtonDeleteProduct.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonDeleteProduct.setEnabled(false);
         jButtonDeleteProduct.setFocusable(false);
@@ -156,7 +158,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jButtonConfirm.setBackground(new java.awt.Color(241, 157, 145));
         jButtonConfirm.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButtonConfirm.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonConfirm.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
+        jButtonConfirm.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/save_32x32.png"))); // NOI18N
         jButtonConfirm.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonConfirm.setEnabled(false);
         jButtonConfirm.setFocusable(false);
@@ -174,7 +176,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jButtonCancel.setBackground(new java.awt.Color(241, 157, 145));
         jButtonCancel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButtonCancel.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Warning-32x32.png"))); // NOI18N
+        jButtonCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/cancel_32x32.png"))); // NOI18N
         jButtonCancel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonCancel.setEnabled(false);
         jButtonCancel.setFocusable(false);
@@ -195,7 +197,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Product:");
+        jLabel1.setText("Product Name:");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -235,11 +237,11 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Product", "Product ID", "Barcode", "Price", "Quantity"
+                "Product ID", "Product", "Short Name", "Barcode", "Price", "Quantity"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -275,6 +277,14 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Short Name (max. 10):");
+
+        jTextFieldShortName.setBackground(new java.awt.Color(255, 240, 224));
+        jTextFieldShortName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldShortName.setForeground(new java.awt.Color(0, 0, 0));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -285,15 +295,17 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldProductID, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldBarcode, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextFieldPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextFieldProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel2)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel2)
+                            .addComponent(jTextFieldShortName, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -323,21 +335,23 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
-                        .addGap(13, 13, 13))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(12, 12, 12)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldProductID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldShortName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -345,7 +359,9 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE))
+                .addGap(13, 13, 13))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -378,12 +394,13 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
             e.printStackTrace();
         }
     }
+    
     private void loadDataIntoTable() {
         String sortStatus = jComboBoxSortBy.getSelectedItem().toString();
-        String sqlAlphaAscend = "SELECT idproduct, product_barcode, product_name, product_price, product_stock_quantity FROM product ORDER BY idproduct asc";
-        String sqlAlphaDescend = "SELECT idproduct, product_barcode, product_name, product_price, product_stock_quantity FROM product ORDER BY idproduct desc";
-        String sqlQuantityAscend = "SELECT idproduct, product_barcode, product_name, product_price, product_stock_quantity FROM product ORDER BY product_stock_quantity asc";
-        String sqlQuantityDescend = "SELECT idproduct, product_barcode, product_name, product_price, product_stock_quantity FROM product ORDER BY product_stock_quantity desc";
+        String sqlAlphaAscend = "SELECT idproduct, product_barcode, product_name, product_short_name, product_price, product_stock_quantity FROM product ORDER BY idproduct asc";
+        String sqlAlphaDescend = "SELECT idproduct, product_barcode, product_name, product_short_name, product_price, product_stock_quantity FROM product ORDER BY idproduct desc";
+        String sqlQuantityAscend = "SELECT idproduct, product_barcode, product_name, product_short_name, product_price, product_stock_quantity FROM product ORDER BY product_stock_quantity asc";
+        String sqlQuantityDescend = "SELECT idproduct, product_barcode, product_name, product_short_name, product_price, product_stock_quantity FROM product ORDER BY product_stock_quantity desc";
         
         try {
             PreparedStatement preparedStatement;
@@ -405,9 +422,10 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
                 int idproduct = resultSet.getInt("idproduct");
                 long product_barcode = resultSet.getLong("product_barcode");
                 String product = resultSet.getString("product_name");
+                String shortName = resultSet.getString("product_short_name");
                 double price = resultSet.getDouble("product_price");
                 int quantity = resultSet.getInt("product_stock_quantity");
-                model.addRow(new Object[]{product, idproduct, product_barcode, price, quantity});
+                model.addRow(new Object[]{idproduct, product, shortName, product_barcode, price, quantity});
             }
             
             resultSet.close();
@@ -428,11 +446,12 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
                             model.getValueAt(selectedRow, 5),
                             model.getValueAt(selectedRow, 6)};
             */
-            jTextFieldProductID.setText(model.getValueAt(selectedRow, 1).toString());
-            jTextFieldBarcode.setText(model.getValueAt(selectedRow, 2).toString());           
-            jTextFieldProduct.setText(model.getValueAt(selectedRow, 0).toString());
-            jTextFieldPrice.setText(model.getValueAt(selectedRow, 3).toString());
-            jTextFieldQuantity.setText(model.getValueAt(selectedRow, 4).toString());
+            jTextFieldProductID.setText(model.getValueAt(selectedRow, 0).toString());
+            jTextFieldProduct.setText(model.getValueAt(selectedRow, 1).toString());
+            jTextFieldShortName.setText(model.getValueAt(selectedRow, 2).toString());
+            jTextFieldBarcode.setText(model.getValueAt(selectedRow, 3).toString());
+            jTextFieldPrice.setText(model.getValueAt(selectedRow, 4).toString());
+            jTextFieldQuantity.setText(model.getValueAt(selectedRow, 5).toString());
     }
     
     private void searchInTable(String searchText){
@@ -455,6 +474,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jTextFieldBarcode.setEnabled(false);
         jTextFieldPrice.setEnabled(false);
         jTextFieldQuantity.setEnabled(false);
+        jTextFieldShortName.setEnabled(false);
         
         jButtonCancel.setEnabled(false);
         jButtonConfirm.setEnabled(false);
@@ -464,6 +484,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
     
     private void clearTextFields(){
         jTextFieldProduct.setText("");
+        jTextFieldShortName.setText("");
         jTextFieldProductID.setText("");
         jTextFieldBarcode.setText("");
         jTextFieldPrice.setText("");
@@ -478,6 +499,8 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
     public void textFieldState(boolean state){
         jTextFieldProduct.setEditable(state);
         jTextFieldProduct.setEnabled(state);
+        jTextFieldShortName.setEditable(state);
+        jTextFieldShortName.setEnabled(state);
         jTextFieldBarcode.setEditable(state);
         jTextFieldBarcode.setEnabled(state);
         jTextFieldPrice.setEditable(state);
@@ -506,7 +529,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
             int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the selected record?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
             if (response == JOptionPane.YES_OPTION){
                 DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
-                int idproduct = (int) model.getValueAt(selectedRow, 1);
+                int idproduct = (int) model.getValueAt(selectedRow, 0);
                 
                 String sql = "DELETE FROM product WHERE idproduct = " + idproduct;
                  try { 
@@ -532,6 +555,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
 
     private void jButtonConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmActionPerformed
         String product = jTextFieldProduct.getText();
+        String shortName = jTextFieldShortName.getText();
         
         if (jTextFieldProduct.getText().isEmpty() || jTextFieldBarcode.getText().isEmpty() || jTextFieldPrice.getText().isEmpty() || 
             jTextFieldQuantity.getText().isEmpty()){
@@ -542,12 +566,10 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
                 long barcode = Long.parseLong(jTextFieldBarcode.getText());
                 double price = Double.parseDouble(jTextFieldPrice.getText());
                 try {
-                    String sqlAdd = "INSERT INTO product(product_barcode, product_name, product_price, product_stock_quantity) "
-                    + "VALUES(" + barcode + ", '" + product + "', " + price + ", " + quantity + ")";
-                    String sqlUpdate = "UPDATE product SET product_barcode = " + barcode + ", product_name = '" + product + "', product_price = "
+                    String sqlAdd = "INSERT INTO product(product_barcode, product_name, product_short_name, product_price, product_stock_quantity) "
+                    + "VALUES(" + barcode + ", '" + product + "', '" + shortName + "', " + price + ", " + quantity + ")";
+                    String sqlUpdate = "UPDATE product SET product_barcode = " + barcode + ", product_name = '" + product + "',  product_short_name = '" + shortName + "', product_price = "
                     + price + ", product_stock_quantity = " + quantity + " WHERE idproduct = ";
-                    
-                    
                     
                     if (price<0 || quantity<0) {
                         JOptionPane.showMessageDialog(this, "Invalid input for price or quantity. Please check the values.");
@@ -575,6 +597,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         reset();
                     
                 } catch(SQLException ex){
+                    JOptionPane.showMessageDialog(this,ex);
                     System.out.println(ex.toString());
                 }
             } catch(NumberFormatException e){
@@ -630,6 +653,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableInventory;
@@ -639,6 +663,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextFieldProductID;
     private javax.swing.JTextField jTextFieldQuantity;
     private javax.swing.JTextField jTextFieldSearch;
+    private javax.swing.JTextField jTextFieldShortName;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
