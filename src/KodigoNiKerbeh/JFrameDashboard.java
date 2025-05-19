@@ -157,6 +157,8 @@ public class JFrameDashboard extends javax.swing.JFrame {
             
             jPanelDashboard.add(j);
             j.setVisible(true);
+            
+            //this part makes the new jframe the only form in the panel
             jPanelDashboard.moveToFront(j);
             jPanelDashboard.setSize(jPanelDashboard.getWidth(), jPanelDashboard.getHeight());
             jPanelDashboard.setLocation(0, 0);
@@ -171,6 +173,12 @@ public class JFrameDashboard extends javax.swing.JFrame {
         JInternalFrameAccount acc = new JInternalFrameAccount();
         jPanelDashboard.add(acc);
         
+        
+        //this part makes the new jframe the only form in the panel
+        jPanelDashboard.moveToFront(acc);
+        jPanelDashboard.setSize(jPanelDashboard.getWidth(), jPanelDashboard.getHeight());
+        jPanelDashboard.setLocation(0, 0);
+        
         acc.setVisible(true);
     }//GEN-LAST:event_jButtonAccountActionPerformed
 
@@ -179,8 +187,12 @@ public class JFrameDashboard extends javax.swing.JFrame {
         JInternalFrameInventory inventory = new JInternalFrameInventory();
         jPanelDashboard.add(inventory);
         
+        //this part makes the new jframe the only form in the panel
+        jPanelDashboard.moveToFront(inventory);
+        jPanelDashboard.setSize(jPanelDashboard.getWidth(), jPanelDashboard.getHeight());
+        jPanelDashboard.setLocation(0, 0);
+        
         inventory.setVisible(true);
-        //jPanelDashboard.moveToFront(inventory);
     }//GEN-LAST:event_jButtonInventoryActionPerformed
 
     private void jButtonLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogoutActionPerformed
