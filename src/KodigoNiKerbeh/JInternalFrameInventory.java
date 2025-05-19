@@ -365,7 +365,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
     public void createConnection(){
         String url = "jdbc:mysql://localhost:3306/pos";
         String user = "root";
-        String password = "";
+        String password = "Hoshimachi0322";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, password);
@@ -380,10 +380,10 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
     }
     private void loadDataIntoTable() {
         String sortStatus = jComboBoxSortBy.getSelectedItem().toString();
-        String sqlAlphaAscend = "SELECT id, barcode, product, price, quantity FROM inventory_mgmt ORDER BY product asc";
-        String sqlAlphaDescend = "SELECT id, barcode, product, price, quantity FROM inventory_mgmt ORDER BY product desc";
-        String sqlQuantityAscend = "SELECT id, barcode, product, price, quantity FROM inventory_mgmt ORDER BY quantity asc";
-        String sqlQuantityDescend = "SELECT id, barcode, product, price, quantity FROM inventory_mgmt ORDER BY quantity desc";
+        String sqlAlphaAscend = "SELECT idproduct, product_barcode, product_name, product_price, product_stock_quantity FROM product ORDER BY idproduct asc";
+        String sqlAlphaDescend = "SELECT idproduct, product_barcode, product_name, product_price, product_stock_quantity FROM product ORDER BY idproduct desc";
+        String sqlQuantityAscend = "SELECT idproduct, product_barcode, product_name, product_price, product_stock_quantity FROM product ORDER BY product_stock_quantity asc";
+        String sqlQuantityDescend = "SELECT idproduct, product_barcode, product_name, product_price, product_stock_quantity FROM product ORDER BY product_stock_quantity desc";
         
         try {
             PreparedStatement preparedStatement;
@@ -402,12 +402,12 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
             model.setRowCount(0);
             
             while (resultSet.next()){
-                int id = resultSet.getInt("id");
-                long barcode = resultSet.getLong("barcode");
-                String product = resultSet.getString("product");
-                double price = resultSet.getDouble("price");
-                int quantity = resultSet.getInt("quantity");
-                model.addRow(new Object[]{product, id, barcode, price, quantity});
+                int idproduct = resultSet.getInt("idproduct");
+                long product_barcode = resultSet.getLong("product_barcode");
+                String product = resultSet.getString("product_name");
+                double price = resultSet.getDouble("product_price");
+                int quantity = resultSet.getInt("product_stock_quantity");
+                model.addRow(new Object[]{product, idproduct, product_barcode, price, quantity});
             }
             
             resultSet.close();
@@ -434,6 +434,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
             jTextFieldPrice.setText(model.getValueAt(selectedRow, 3).toString());
             jTextFieldQuantity.setText(model.getValueAt(selectedRow, 4).toString());
     }
+    
     private void searchInTable(String searchText){
         DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
         int rowCount = model.getRowCount();
@@ -448,6 +449,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
             }
         }
     }
+    
     private void reset(){
         jTextFieldProduct.setEnabled(false);
         jTextFieldBarcode.setEnabled(false);
@@ -459,6 +461,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jButtonDeleteProduct.setEnabled(false);
         jButtonEditProduct.setEnabled(false);
     }
+    
     private void clearTextFields(){
         jTextFieldProduct.setText("");
         jTextFieldProductID.setText("");
@@ -466,10 +469,12 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jTextFieldPrice.setText("");
         jTextFieldQuantity.setText("");
     }
+    
     public void buttonState(boolean state){
         jButtonConfirm.setEnabled(state);
         jButtonCancel.setEnabled(state);
     }
+    
     public void textFieldState(boolean state){
         jTextFieldProduct.setEditable(state);
         jTextFieldProduct.setEnabled(state);
@@ -480,6 +485,7 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
         jTextFieldQuantity.setEditable(state);
         jTextFieldQuantity.setEnabled(state);
     }
+    
     private void jButtonAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddProductActionPerformed
         addOrEdit=1;
         clearTextFields();
@@ -500,9 +506,9 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
             int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the selected record?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
             if (response == JOptionPane.YES_OPTION){
                 DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
-                int id = (int) model.getValueAt(selectedRow, 1);
+                int idproduct = (int) model.getValueAt(selectedRow, 1);
                 
-                String sql = "DELETE FROM inventory_mgmt WHERE id = " + id;
+                String sql = "DELETE FROM product WHERE idproduct = " + idproduct;
                  try { 
                      PreparedStatement preparedStatement = connection.prepareStatement(sql);
                      preparedStatement.executeUpdate();
@@ -536,10 +542,10 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
                 long barcode = Long.parseLong(jTextFieldBarcode.getText());
                 double price = Double.parseDouble(jTextFieldPrice.getText());
                 try {
-                    String sqlAdd = "INSERT INTO inventory_mgmt(barcode, product, price, quantity) "
+                    String sqlAdd = "INSERT INTO product(product_barcode, product_name, product_price, product_stock_quantity) "
                     + "VALUES(" + barcode + ", '" + product + "', " + price + ", " + quantity + ")";
-                    String sqlUpdate = "UPDATE inventory_mgmt SET barcode = " + barcode + ", product = '" + product + "', price = "
-                    + price + ", quantity = " + quantity + " WHERE id = ";
+                    String sqlUpdate = "UPDATE product SET product_barcode = " + barcode + ", product_name = '" + product + "', product_price = "
+                    + price + ", product_stock_quantity = " + quantity + " WHERE idproduct = ";
                     
                     
                     
@@ -553,8 +559,8 @@ public class JInternalFrameInventory extends javax.swing.JInternalFrame {
                             preparedStatement.executeUpdate();
                             JOptionPane.showMessageDialog(this, "Record Successfully Saved!");
                         } else {
-                            int id = Integer.parseInt(jTextFieldProductID.getText());
-                            sqlUpdate += id;
+                            int idproduct = Integer.parseInt(jTextFieldProductID.getText());
+                            sqlUpdate += idproduct;
                             preparedStatement = connection.prepareStatement(sqlUpdate);
                             int rowAffected = preparedStatement.executeUpdate();
                             if (rowAffected > 0) {

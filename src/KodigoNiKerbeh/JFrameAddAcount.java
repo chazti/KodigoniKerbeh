@@ -30,7 +30,7 @@ public class JFrameAddAcount extends javax.swing.JFrame {
     public void createConnection(){
         String url = "jdbc:mysql://localhost:3306/POS";
         String user = "root";
-        String password = "73556085283";
+        String password = "Hoshimachi0322";
         
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -81,12 +81,6 @@ public class JFrameAddAcount extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Password:");
 
-        jTextFieldEmp_Last_Name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldEmp_Last_NameActionPerformed(evt);
-            }
-        });
-
         jRadioButtonAdmin.setForeground(new java.awt.Color(0, 0, 0));
         jRadioButtonAdmin.setText("Admin");
 
@@ -111,20 +105,8 @@ public class JFrameAddAcount extends javax.swing.JFrame {
             }
         });
 
-        jTextFieldEmp_Middle_Name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldEmp_Middle_NameActionPerformed(evt);
-            }
-        });
-
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Employee Middle Name");
-
-        jTextFieldEmp_First_Name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldEmp_First_NameActionPerformed(evt);
-            }
-        });
 
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Employee First Name");
@@ -230,7 +212,7 @@ public class JFrameAddAcount extends javax.swing.JFrame {
     private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
         try{
             PreparedStatement preparedStatement;
-            if(jTextFieldEmp_Last_Name.getText().isEmpty() || jTextFieldPassword.getText().isEmpty()){
+            if(jTextFieldEmp_Last_Name.getText().isEmpty() || jTextFieldEmp_First_Name.getText().isEmpty() || jTextFieldUsername.getText().isEmpty() || jTextFieldPassword.getText().isEmpty()){
                 JOptionPane.showMessageDialog(this, "Please Complete Fill!");
             }else{
                 String emp_last_name = jTextFieldEmp_Last_Name.getText();
@@ -273,19 +255,7 @@ public class JFrameAddAcount extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButtonExitActionPerformed
 
-    private void jTextFieldEmp_Last_NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEmp_Last_NameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldEmp_Last_NameActionPerformed
-
-    private void jTextFieldEmp_Middle_NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEmp_Middle_NameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldEmp_Middle_NameActionPerformed
-
-    private void jTextFieldEmp_First_NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEmp_First_NameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldEmp_First_NameActionPerformed
-
-     void clearText(){
+    private void clearText(){
         jTextFieldEmp_Last_Name.setText("");
         jTextFieldEmp_First_Name.setText("");
         jTextFieldEmp_Middle_Name.setText("");
